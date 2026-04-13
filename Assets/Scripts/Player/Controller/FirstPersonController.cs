@@ -16,11 +16,6 @@ public class FirstPersonController : MonoBehaviour
 
     private float rotationX = 0f;
 
-    private void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
     public void Move(Vector2 direction)
     {
         Vector3 move = transform.right * direction.x + transform.forward * direction.y;

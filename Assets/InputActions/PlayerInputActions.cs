@@ -136,11 +136,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""UI"",
+            ""name"": ""TutorUI"",
             ""id"": ""68bc3892-152d-4cd0-8c33-ad334aaf06b4"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""NextTutor"",
                     ""type"": ""Button"",
                     ""id"": ""69fe796a-3e6b-4202-9a15-9ef9e36cf5b0"",
                     ""expectedControlType"": """",
@@ -153,11 +153,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b2432194-3ff7-45ff-9804-bf8733eefa5e"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/anyKey"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""NextTutor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -171,15 +171,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-        // UI
-        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
+        // TutorUI
+        m_TutorUI = asset.FindActionMap("TutorUI", throwIfNotFound: true);
+        m_TutorUI_NextTutor = m_TutorUI.FindAction("NextTutor", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, PlayerInputActions.Player.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerInputActions.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_TutorUI.enabled, "This will cause a leak and performance issues, PlayerInputActions.TutorUI.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -300,59 +300,59 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // UI
-    private readonly InputActionMap m_UI;
-    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_Newaction;
-    public struct UIActions
+    // TutorUI
+    private readonly InputActionMap m_TutorUI;
+    private List<ITutorUIActions> m_TutorUIActionsCallbackInterfaces = new List<ITutorUIActions>();
+    private readonly InputAction m_TutorUI_NextTutor;
+    public struct TutorUIActions
     {
         private @PlayerInputActions m_Wrapper;
-        public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_UI_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public TutorUIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @NextTutor => m_Wrapper.m_TutorUI_NextTutor;
+        public InputActionMap Get() { return m_Wrapper.m_TutorUI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
-        public void AddCallbacks(IUIActions instance)
+        public static implicit operator InputActionMap(TutorUIActions set) { return set.Get(); }
+        public void AddCallbacks(ITutorUIActions instance)
         {
-            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            if (instance == null || m_Wrapper.m_TutorUIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_TutorUIActionsCallbackInterfaces.Add(instance);
+            @NextTutor.started += instance.OnNextTutor;
+            @NextTutor.performed += instance.OnNextTutor;
+            @NextTutor.canceled += instance.OnNextTutor;
         }
 
-        private void UnregisterCallbacks(IUIActions instance)
+        private void UnregisterCallbacks(ITutorUIActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @NextTutor.started -= instance.OnNextTutor;
+            @NextTutor.performed -= instance.OnNextTutor;
+            @NextTutor.canceled -= instance.OnNextTutor;
         }
 
-        public void RemoveCallbacks(IUIActions instance)
+        public void RemoveCallbacks(ITutorUIActions instance)
         {
-            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_TutorUIActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IUIActions instance)
+        public void SetCallbacks(ITutorUIActions instance)
         {
-            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_TutorUIActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_TutorUIActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public UIActions @UI => new UIActions(this);
+    public TutorUIActions @TutorUI => new TutorUIActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
     }
-    public interface IUIActions
+    public interface ITutorUIActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnNextTutor(InputAction.CallbackContext context);
     }
 }

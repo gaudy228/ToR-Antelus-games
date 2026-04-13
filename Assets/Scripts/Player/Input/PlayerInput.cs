@@ -12,14 +12,13 @@ public class PlayerInput : MonoBehaviour
 
         _controllable = GetComponent<FirstPersonController>();
 
-        _playerInput.Player.Enable();
-        _playerInput.UI.Disable();
+        SwitchToPlayer();
     }
 
     private void OnDisable()
     {
         _playerInput.Disable();
-        _playerInput.UI.Disable();
+        _playerInput.TutorUI.Disable();
     }
 
     private void Update()
@@ -28,16 +27,18 @@ public class PlayerInput : MonoBehaviour
         ReadLook();
     }
 
-    private void SwitchToPlayer()
+    public void SwitchToPlayer()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         _playerInput.Player.Enable();
-        _playerInput.UI.Disable();
+        _playerInput.TutorUI.Disable();
     }
 
-    private void SwithToUI()
+    public void SwithToUI()
     {
+        Cursor.lockState = CursorLockMode.None;
         _playerInput.Disable();
-        _playerInput.UI.Enable();
+        _playerInput.TutorUI.Enable();
     }
 
     private void ReadMovement()

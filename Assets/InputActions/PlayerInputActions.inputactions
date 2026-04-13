@@ -114,11 +114,11 @@
             ]
         },
         {
-            "name": "UI",
+            "name": "TutorUI",
             "id": "68bc3892-152d-4cd0-8c33-ad334aaf06b4",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "NextTutor",
                     "type": "Button",
                     "id": "69fe796a-3e6b-4202-9a15-9ef9e36cf5b0",
                     "expectedControlType": "",
@@ -131,11 +131,11 @@
                 {
                     "name": "",
                     "id": "b2432194-3ff7-45ff-9804-bf8733eefa5e",
-                    "path": "",
+                    "path": "<Keyboard>/anyKey",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "NextTutor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
