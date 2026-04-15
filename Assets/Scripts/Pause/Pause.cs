@@ -1,16 +1,10 @@
 using UnityEngine;
-using VContainer.Unity;
 
-public class Pause : IStartable
+public class Pause : MonoBehaviour
 {
-    private PlayerInput _playerInput;
+    [SerializeField] private PlayerInput _playerInput;
 
-    public Pause(PlayerInput playerInput)
-    {
-        _playerInput = playerInput;
-    }
-
-    public void Start()
+    private void Start()
     {
         Time.timeScale = 1;
     }

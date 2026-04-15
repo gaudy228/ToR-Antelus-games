@@ -6,6 +6,8 @@ public class PlayerInput : MonoBehaviour
 
     private FirstPersonController _controllable;
 
+    [SerializeField] private PlayerInteract _playerInteract;
+
     private void Awake()
     {
         _playerInput = new PlayerInputActions();
@@ -15,8 +17,14 @@ public class PlayerInput : MonoBehaviour
         SwitchToPlayer();
     }
 
+    private void OnEnable()
+    {
+        _playerInput.Player.Interact.performed += OnInteract;
+    }
+
     private void OnDisable()
     {
+        _playerInput.Player.Interact.performed -= OnInteract;
         _playerInput.Disable();
         _playerInput.TutorUI.Disable();
     }
@@ -39,6 +47,11 @@ public class PlayerInput : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         _playerInput.Disable();
         _playerInput.TutorUI.Enable();
+    }
+
+    private void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _playerInteract.Interact();
     }
 
     private void ReadMovement()

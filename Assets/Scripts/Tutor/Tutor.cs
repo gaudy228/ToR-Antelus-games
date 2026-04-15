@@ -1,17 +1,10 @@
 using UnityEngine;
-using VContainer;
 
 public class Tutor : MonoBehaviour
 {
-    private Pause _pause;
+    [SerializeField] private Pause _pause;
     [SerializeField] private LayerMask _playerLayerMask;
     [SerializeField] private GameObject _tutorPanel;
-
-    [Inject]
-    private void Construct(Pause pause)
-    {
-        _pause = pause;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
